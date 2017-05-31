@@ -1,18 +1,33 @@
 #!/bin/bash
 
+# Check if a package is installed.
+# Return 0 (true) is installed or 1 (false) if not installed
+function is_package_installed() {
+    if [ $(dpkg-query -W -f='${Status}' $1 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
 function read_password {
   local __resultvar=$1
   local __password
   local __password2
   
   while true; do
-    read -sp "Enter new password: " password
+    read -sp "Enter new password: " __password
     echo
-    read -sp "Retype new password: " password2
-    echo 
     
-    [ "$__password" = "$__password2" ] && break
-    echo "Sorry, passwords do not match"
+    if [[ -n "$__password" ]]; then
+      read -sp "Retype new password: " __password2
+      echo 
+    
+      [ "$__password" = "$__password2" ] && break
+      echo "Sorry, passwords do not match"
+    else
+      echo "Sorry, password can not be empty"
+    fi
   done
   
   eval $__resultvar="'$__password'"
@@ -50,5 +65,36 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-#apt-get update
-#apt-get upgrade --yes
+# -----------------------------------------------------
+# APT
+# ----------------------------------------------------
+apt-get update
+apt-get upgrade --yes
+
+# ==================================================================
+#  Sudo
+# ==================================================================
+if ! is_package_installed sudo; then
+    apt-get --yes install sudo
+	if [ $? -ne 0 ]; then
+        echo "Error: Failed to install sudo."
+        exit 1
+    fi
+fi
+
+usermod -aG sudo $USER_NAME
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to add $USER_NAME to the sudo group."
+    exit 1
+fi
+
+
+# ==================================================================
+#  Harden SSH
+# ==================================================================
+if [ -f /etc/ssh/sshd_config ]; then
+  sed -i "s/#PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+  sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+
+  service ssh restart
+fi
