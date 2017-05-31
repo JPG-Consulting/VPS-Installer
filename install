@@ -13,9 +13,13 @@ fi
 # Non-privileged user settings
 . installer/user.sh
 
+. installer/systemd.sh
+
 . installer/ssh.sh
 
 . installer/lamp.sh
+
+. installer/bind.sh
 
 . installer/iptables.sh
 
