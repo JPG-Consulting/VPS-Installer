@@ -2,17 +2,51 @@
 
 E_NOTROOT=87 #Non-root Exit Error
 
+function read_password {
+  local __resultvar=$1
+  local __password
+  local __password2
+  
+  while true; do
+    read -sp "Enter new password: " password
+    echo
+    read -sp "Retype new password: " password2
+    echo 
+    
+    [ "$__password" = "$__password2" ] && break
+    echo "Sorry, passwords do not match"
+  done
+  
+  eval $__resultvar="'$__password'"
+}
+
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 if [ "$UID" -ne "$ROOT_UID" ]; then
   echo "Must be root to run this script."
   exit $E_NOTROOT
 fi
 
-# We need a non-privileged user
+# ------------------------------------------------
+#  Non-privileged user
+# ------------------------------------------------
 
-read -p "Username: " NONPRIVILEGEDUSER
-read -sp 'Password: ' password
-read -sp 'retype password ' passwordconfirmation
+while true; do
+  read -p "Username: " USER_NAME
+  [[ -n "$USER_NAME" ]] && break;
+  echo "Sorry, username can not be empty"
+done
 
-apt-get update
-apt-get upgrade --yes
+adduser --gecos ",,," --disabled-password $USER_NAME
+if [ $? -ne 0 ]; then
+  echo "Error: Failed to add user $USER_NAME."
+  exit 1
+fi
+
+echo "$USER_NAME:$USER_PASSWORD" | chpasswd
+if [ $? -ne 0 ]; then
+  echo "Error: Failed to set the password for user $USER_NAME"
+  exit 1
+fi
+
+#apt-get update
+#apt-get upgrade --yes
