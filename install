@@ -1,0 +1,18 @@
+#!/bin/bash
+
+E_NOTROOT=87 #Non-root Exit Error
+
+# Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
+if [ "$UID" -ne "$ROOT_UID" ]; then
+  echo "Must be root to run this script."
+  exit $E_NOTROOT
+fi
+
+# We need a non-privileged user
+
+read -p "Username: " NONPRIVILEGEDUSER
+read -sp 'Password: ' password
+read -sp 'retype password ' passwordconfirmation
+
+apt-get update
+apt-get upgrade --yes
