@@ -16,3 +16,5 @@
 # ====================================
 . installer/php.sh
 
+
+service apache2 restart

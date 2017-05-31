@@ -17,4 +17,6 @@ fi
 
 . installer/lamp.sh
 
+. installer/iptables.sh
+
 . installer/fail2ban.sh
