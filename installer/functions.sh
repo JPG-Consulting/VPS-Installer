@@ -10,6 +10,25 @@ function is_package_installed() {
     fi
 }
 
+# prompt for a y/n questions
+#
+# Usage: prompt_yn "Should I continue?"
+#
+function prompt_yn() {
+  echo -n "$1 [y/n]: "
+
+  while true; do
+    read -n 1 -s value;
+    if [[ $value == "y" ]] || [[ $value == "Y" ]];  then
+      echo "y"
+      return 0
+    elif [[ $value == "n" ]] || [[ $value == "N" ]]; then
+      echo "n"
+      return 1
+    fi
+  done
+}
+
 # Reads a password with confirmation.
 #
 # usage: read_password [VAR_NAME]
