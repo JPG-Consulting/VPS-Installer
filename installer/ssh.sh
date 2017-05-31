@@ -30,6 +30,8 @@ if ! `egrep -v "^(#|$)" /etc/ssh/sshd_config | grep -i "^AllowGroups" | grep -iq
    fi
 fi
 
+#ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "PASSPHRASE"
+
 # ========================================
 #  Restart the SSH server
 # ========================================

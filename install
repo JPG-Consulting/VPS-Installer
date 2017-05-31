@@ -15,4 +15,6 @@ fi
 
 . installer/ssh.sh
 
+. installer/lamp.sh
+
 . installer/fail2ban.sh
