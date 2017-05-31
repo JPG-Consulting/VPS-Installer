@@ -1,4 +1,5 @@
 #./bin/bash
+# Reference: https://howto.biapy.com/en/debian-gnu-linux/system/security/harden-the-ssh-access-security-on-debian
 
 if ! is_package_installed openssh-server; then
   apt-get --yes install openssh-server
