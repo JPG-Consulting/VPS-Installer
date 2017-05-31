@@ -1,7 +1,5 @@
 #!/bin/bash
 
-E_NOTROOT=87 #Non-root Exit Error
-
 function read_password {
   local __resultvar=$1
   local __password
@@ -20,10 +18,14 @@ function read_password {
   eval $__resultvar="'$__password'"
 }
 
+# ==================================================================
+#  Main entry point
+# ==================================================================
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
-if [ "$UID" -ne "$ROOT_UID" ]; then
+
+if [[ $(id -u) -ne 0 ]]; then 
   echo "Must be root to run this script."
-  exit $E_NOTROOT
+	exit 87 # Non-root Exit Error
 fi
 
 # ------------------------------------------------
