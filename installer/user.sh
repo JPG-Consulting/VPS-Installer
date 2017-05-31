@@ -50,3 +50,14 @@ if ! id -nG "$USER_NAME" | grep -qw "sudo"; then
     exit 1
   fi
 fi
+
+# =====================================
+#  SSH
+# =====================================
+if [ -d "/home/${USER_NAME}" ]; then
+  if [ ! -d "/home/${USER_NAME}/.ssh" ]; then
+    mkdir --parents "/home/${USER_NAME}/.ssh"
+    chown "${USER_NAME}":"${USER_NAME}" "/home/${USER_NAME}/.ssh"
+  fi
+fi
+

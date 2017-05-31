@@ -9,10 +9,27 @@ if ! is_package_installed openssh-server; then
 fi
 
 # ===========================================
-#  Harden SSH Server
+#  Disable root login via SSH
 # ===========================================
 
 sed -i "s/#PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
 sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
 
+# ===========================================
+#  Filter SSH users
+# ===========================================
+if ! `egrep -v "^(#|$)" /etc/ssh/sshd_config | grep -i "^AllowGroups" | grep -iq "sudo"` ; then
+   echo "Adding sudo to AllowGroups"
+   if `grep -iq "^AllowGroups" /etc/ssh/sshd_config` ; then
+      echo "Append to AllowGroups"
+      sed -i "s/^\(AllowGroups.*\)/\1 sudo/g" /etc/ssh/sshd_config
+   else
+      echo "Adding AllowGroups"
+      echo "AllowGroups sudo" >> /etc/ssh/sshd_config
+   fi
+fi
+
+# ========================================
+#  Restart the SSH server
+# ========================================
 service ssh restart
