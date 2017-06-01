@@ -24,3 +24,5 @@ fi
 . installer/iptables.sh
 
 . installer/fail2ban.sh
+
+. installer/cron-apt.sh
