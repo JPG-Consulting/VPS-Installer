@@ -31,6 +31,7 @@ iptables -A INPUT  -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 
 # SSH
-iptables -A INPUT  -p tcp --dport 22 -m state --state NEW -j ACCEPT
+iptables -A INPUT  -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 
+iptables-save
