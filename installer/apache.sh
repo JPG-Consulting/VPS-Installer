@@ -10,6 +10,3 @@ fi
 
 sed -i 's/^ServerSignature On/ServerSignature Off/g' /etc/apache2/conf.d/security
 sed -i 's/^ServerTokens \(OS\|Full\|Minimal\|Minor\|Major\)/ServerTokens Prod/g' /etc/apache2/conf.d/security
-
-## Write protect Apache, Php, Mysql configuration files
-chattr +i /etc/apache2/apache2.conf
