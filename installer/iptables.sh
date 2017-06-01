@@ -17,6 +17,20 @@ iptables -t nat -F
 iptables -t nat -X
 iptables -t mangle -F
 iptables -t mangle -X
-iptables -P INPUT ACCEPT
-iptables -P FORWARD ACCEPT
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
+
+# Enable stateful inspection
+iptables -A INPUT   -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT  -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow all packets via lo
+iptables -A INPUT  -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# SSH
+iptables -A INPUT  -p tcp --dport 22 -m state --state NEW -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+
