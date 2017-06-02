@@ -68,3 +68,10 @@ if [ -f "/etc/ssh/sshd_config" ]; then
      fi
   fi
 fi
+
+if [ -d "/home/${USER_NAME}" ]; then
+  if [ ! -d "/home/${USER_NAME}/.ssh" ]; then
+    mkdir --parents "/home/${USER_NAME}/.ssh"
+    chown "${USER_NAME}":"${USER_NAME}" "/home/${USER_NAME}/.ssh"
+  fi
+fi
