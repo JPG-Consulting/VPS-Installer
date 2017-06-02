@@ -10,14 +10,12 @@ if ! is_package_installed postfix; then
   debconf-set-selections <<< "postfix postfix/mailname string '$HOSTNAME'"
   debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 
-  apt-get --yes install postfix
+  apt-get --yes install postfix postfix-mysql
   if [ $? -ne 0 ]; then
     echo "Error: Failed to install postfix."
     exit 1
   fi
-fi
-
-if ! is_package_installed postfix-mysql; then
+elif ! is_package_installed postfix-mysql; then
   apt-get --yes install postfix-mysql
   if [ $? -ne 0 ]; then
     echo "Error: Failed to install postfix-mysql."
