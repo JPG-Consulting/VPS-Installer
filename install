@@ -26,6 +26,6 @@ fi
 
 . installer/fail2ban.sh
 
-. installes/mail.sh
+. installer/mail.sh
 
 . installer/cron-apt.sh
