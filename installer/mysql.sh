@@ -8,7 +8,7 @@ if ! is_package_installed mysql-server; then
   fi
 fi
 
-mysql -uroot -p --protocol=tcp -e << _EOF_
+mysql -uroot -p --protocol=tcp << _EOF_
 DELETE FROM mysql.db WHERE Db LIKE 'test%';
 FLUSH PRIVILEGES;
 DROP DATABASE IF EXISTS test;
