@@ -21,8 +21,11 @@ fi
 
 . installer/bind.sh
 
-. installer/iptables.sh
+# NOTE: Causes problems with my VPS fue to a bug in the VPS software
+#. installer/iptables.sh
 
 . installer/fail2ban.sh
+
+. installes/mail.sh
 
 . installer/cron-apt.sh
