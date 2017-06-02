@@ -8,9 +8,7 @@ if ! is_package_installed mysql-server; then
   fi
 fi
 
-SQL="DROP USER IF EXISTS ''@'localhost';
-DROP USER IF EXISTS ''@'${HOST_NAME}';
-DELETE FROM mysql.db WHERE Db LIKE 'test%';
+SQL="DELETE FROM mysql.db WHERE Db LIKE 'test%';
 FLUSH PRIVILEGES;
 DROP DATABASE IF EXISTS test;"
 
