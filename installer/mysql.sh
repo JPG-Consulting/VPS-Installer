@@ -8,3 +8,13 @@ if ! is_package_installed mysql-server; then
   fi
 fi
 
+SQL="DROP USER IF EXISTS ''@'localhost';
+DROP USER IF EXISTS ''@'${HOST_NAME}';
+DELETE FROM mysql.db WHERE Db LIKE 'test%';
+FLUSH PRIVILEGES;
+DROP DATABASE IF EXISTS test;"
+
+mysql -uroot -p --protocol=tcp -e "${SQL}"
+if [ $? -ne 0 ]; then
+  echo "WARNING: Failed to secure MySQL"
+fi
