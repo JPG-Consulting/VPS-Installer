@@ -8,11 +8,11 @@ if ! is_package_installed mysql-server; then
   fi
 fi
 
-SQL="DELETE FROM mysql.db WHERE Db LIKE 'test%';
+mysql -uroot -p --protocol=tcp -e << _EOF_
+DELETE FROM mysql.db WHERE Db LIKE 'test%';
 FLUSH PRIVILEGES;
-DROP DATABASE IF EXISTS test;"
-
-mysql -uroot -p --protocol=tcp -e "${SQL}"
+DROP DATABASE IF EXISTS test;
+__EOF_
 if [ $? -ne 0 ]; then
   echo "WARNING: Failed to secure MySQL"
 fi
