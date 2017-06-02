@@ -75,3 +75,7 @@ if [ -d "/home/${USER_NAME}" ]; then
     chown "${USER_NAME}":"${USER_NAME}" "/home/${USER_NAME}/.ssh"
   fi
 fi
+
+if [ -e /etc/init.d/ssh ]; then
+  service ssh restart
+fi
