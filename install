@@ -13,6 +13,8 @@ fi
 # Non-privileged user settings
 . installer/user.sh
 
+. installer/prompt.sh
+
 . installer/systemd.sh
 
 . installer/ssh.sh
