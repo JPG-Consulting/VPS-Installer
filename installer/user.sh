@@ -54,10 +54,17 @@ fi
 # =====================================
 #  SSH
 # =====================================
-if [ -d "/home/${USER_NAME}" ]; then
-  if [ ! -d "/home/${USER_NAME}/.ssh" ]; then
-    mkdir --parents "/home/${USER_NAME}/.ssh"
-    chown "${USER_NAME}":"${USER_NAME}" "/home/${USER_NAME}/.ssh"
+if [ -f "/etc/ssh/sshd_config" ]; then
+  #  Disable root login via SSH
+  sed -i "s/#PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+  sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+
+  # Filter SSH users
+  if ! `egrep -v "^(#|$)" /etc/ssh/sshd_config | grep -i "^AllowGroups" | grep -iq "sudo"` ; then
+    if `grep -iq "^AllowGroups" /etc/ssh/sshd_config` ; then
+      sed -i "s/^\(AllowGroups.*\)/\1 sudo/g" /etc/ssh/sshd_config
+     else
+        echo "AllowGroups sudo" >> /etc/ssh/sshd_config
+     fi
   fi
 fi
-
