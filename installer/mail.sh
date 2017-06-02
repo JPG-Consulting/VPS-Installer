@@ -33,11 +33,22 @@ service postfix stop
 
 # Postfix basic setup
 # Add your domain to the config files, so others can't abuse your mailsystem:
-postconf -e "myorigin = $HOSTNAME"
+if [ -f /etc/mailname ]; then
+  postconf -e "myorigin = /etc/mailname"
+else
+  postconf -e "myorigin = $HOSTNAME"
+fi
+
 # Add your hostname (computer name). (Use command "hostname" at the command-line to display your hostname if not sure.)
 postconf -e "myhostname=$HOSTNAME"
 # Now add the domain names that your system will handle.
 postconf -e "relay_domains = $HOSTNAME"
+
+postconf -e "inet_interfaces = all" 
+postconf -e "inet_protocols = ipv4"
+
+postconf -e 'smtpd_helo_required = yes'
+postconf -e 'disable_vrfy_command = yes'
 
 
 # ===========================================
@@ -54,4 +65,13 @@ if ! is_package_installed dovecot-imapd; then
     echo "Error: Failed to install dovecot-imapd."
     exit 1
   fi
+fi
+
+# ==========================================
+#  Merge Postfix and Dovecot
+# ==========================================
+
+if [[ ! $(grep -F dovecot /etc/postfix/master.cf) ]]; then 
+  echo "dovecot   unix  -       n       n       -       -       pipe" >> /etc/postfix/master.cf
+  echo "   flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}" >> /etc/postfix/master.cf
 fi
