@@ -12,7 +12,7 @@ mysql -uroot -p --protocol=tcp -e << _EOF_
 DELETE FROM mysql.db WHERE Db LIKE 'test%';
 FLUSH PRIVILEGES;
 DROP DATABASE IF EXISTS test;
-__EOF_
+_EOF_
 if [ $? -ne 0 ]; then
   echo "WARNING: Failed to secure MySQL"
 fi
