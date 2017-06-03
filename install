@@ -15,7 +15,8 @@ fi
 
 . installer/prompt.sh
 
-. installer/certificates.sh
+# https://certbot.eff.org/#debianwheezy-other
+#. installer/certificates.sh
 
 . installer/systemd.sh
 
