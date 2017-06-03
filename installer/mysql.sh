@@ -30,6 +30,13 @@ mysql << _EOF_
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWD');
 _EOF_
 
+# Change root username
+mysql << _EOF_
+use mysql;
+update user set user='admin' where user='root';
+FLUSH PRIVILEGES;
+_EOF_
+
 killall -9 mysqld_safe mysqld
 service mysql stop
 service mysql start
