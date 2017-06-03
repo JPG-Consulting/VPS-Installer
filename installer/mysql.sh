@@ -25,6 +25,11 @@ if [ $? -ne 0 ]; then
   echo "WARNING: Failed to secure MySQL"
 fi
 
+# MySQL .7.5 and earlier:
+mysql << _EOF_
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$(MYSQL_ROOT_PASSWD)');
+_EOL_
+
 killall -9 mysqld_safe mysqld
 service mysql stop
 service mysql start
