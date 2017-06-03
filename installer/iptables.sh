@@ -44,7 +44,7 @@ iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 443 -j 
 # IMAP port
 iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 143 -j ACCEPT
 # Secure IMAP
-iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 993 -j ACCEPT
+# iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 993 -j ACCEPT
 # POP3
 #iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 110 -j ACCEPT
 # Secure POP3
