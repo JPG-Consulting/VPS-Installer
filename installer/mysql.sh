@@ -23,5 +23,6 @@ if [ $? -ne 0 ]; then
   echo "WARNING: Failed to secure MySQL"
 fi
 
+killall -9 mysqld_safe mysqld
 service mysql stop
 service mysql start
