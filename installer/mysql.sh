@@ -8,7 +8,10 @@ if ! is_package_installed mysql-server; then
   fi
 fi
 
-mysql -uroot -p --protocol=tcp << _EOF_
+service mysql stop
+mysqld_safe --skip-grant-tables &
+
+mysql << _EOF_
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 DELETE FROM mysql.db WHERE Db LIKE 'test%';
@@ -19,3 +22,6 @@ _EOF_
 if [ $? -ne 0 ]; then
   echo "WARNING: Failed to secure MySQL"
 fi
+
+service mysql stop
+service mysql start
