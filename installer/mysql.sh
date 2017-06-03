@@ -28,7 +28,7 @@ fi
 # MySQL .7.5 and earlier:
 mysql << _EOF_
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$(MYSQL_ROOT_PASSWD)');
-_EOL_
+_EOF_
 
 killall -9 mysqld_safe mysqld
 service mysql stop
