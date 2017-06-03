@@ -11,7 +11,14 @@ fi
 service mysql stop
 mysqld_safe --skip-grant-tables &
 
-sleep 5
+i="0"
+while [ $i -lt 10 ]; do
+  sleep 1
+  if [ -e /var/run/mysqld/mysqld.sock ]; then
+    break
+  fi
+  i=$[$i+1]
+done
 
 mysql << _EOF_
 DELETE FROM mysql.user WHERE User='';
@@ -28,13 +35,6 @@ fi
 # MySQL .7.5 and earlier:
 mysql << _EOF_
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWD');
-_EOF_
-
-# Change root username
-mysql << _EOF_
-use mysql;
-update user set user='admin' where user='root';
-FLUSH PRIVILEGES;
 _EOF_
 
 killall -9 mysqld_safe mysqld
