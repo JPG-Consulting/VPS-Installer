@@ -11,6 +11,8 @@ fi
 service mysql stop
 mysqld_safe --skip-grant-tables &
 
+sleep 5
+
 mysql << _EOF_
 DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
