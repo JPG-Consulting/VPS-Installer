@@ -174,6 +174,9 @@ fi
 if [ ! -f /etc/dovecot/conf.d/10-ssl.conf.orig ]; then
   cp /etc/dovecot/conf.d/10-ssl.conf /etc/dovecot/conf.d/10-ssl.conf.orig
 fi
+if [ ! -f /etc/dovecot/conf.d/auth-sql.conf.ext.orig]; then
+  cp /etc/dovecot/conf.d/auth-sql.conf.ext /etc/dovecot/conf.d/auth-sql.conf.ext.orig
+fi
 
 sed -i 's/^mail_location =.*/mail_location = maildir:\/var\/vmail\/vhosts\/%d\/%n\//g' /etc/dovecot/conf.d/10-mail.conf
 sed -i 's/^#mail_uid =.*/mail_uid = vmail/g' /etc/dovecot/conf.d/10-mail.conf
