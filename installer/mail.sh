@@ -92,6 +92,49 @@ postconf -e "virtual_gid_maps = static:5000"
 # Set the base address for all virtual mailboxes
 postconf -e "virtual_mailbox_base = /var/vmail"
 
+postconf -e "virtual_alias_domains ="
+postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/virtual/mysql-virtual-mailbox-domains.cf"
+postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/virtual/mysql-virtual-mailbox-maps.cf"
+postconf -e "virtual_alias_maps = mysql:/etc/postfix/virtual/mysql-virtual-alias-maps.cf, mysql:/etc/postfix/virtual/mysql-virtual-email2email.cf"
+postconf -e "virtual_transport = dovecot"
+postconf -e "dovecot_destination_recipient_limit = 1"
+
+mkdir /etc/postfix/virtual
+
+cat <<_EOF_ > /etc/postfix/virtual/mysql-virtual-mailbox-maps.cf
+user = vmail
+password = $VMAIL_PASSWD
+hosts = 127.0.0.1
+dbname = vmail
+query = SELECT 1 FROM virtual_users AS U LEFT JOIN virtual_domains AS D ON U.domain_id=D.id WHERE CONCAT(U.user, '@',D.name)='%s'
+_EOF_
+
+cat <<_EOF_ > /etc/postfix/virtual/mysql-virtual-mailbox-domains.cf
+user = vmail
+password = $VMAIL_PASSWD
+hosts = 127.0.0.1
+dbname = vmail
+query = SELECT 1 FROM virtual_domains WHERE name='%s'
+_EOF_
+
+cat <<_EOF_ > /etc/postfix/virtual/mysql-virtual-alias-maps.cf
+user = vmail
+password = $VMAIL_PASSWD
+hosts = 127.0.0.1
+dbname = vmail
+query = SELECT destination FROM virtual_aliases AS A LEFT JOIN virtual_domains AS D ON A.domain_id=D.id WHERE CONCAT(A.source, '@', D.name)='%s'
+_EOF_
+
+cat <<_EOF_ > /etc/postfix/virtual/mysql-virtual-email2email.cf
+user = vmail
+password = $VMAIL_PASSWD
+hosts = 127.0.0.1
+dbname = vmail
+query = SELECT CONCAT(U.user, '@',D.name) FROM virtual_users AS U LEFT JOIN virtual_domains AS D ON U.domain_id=D.id WHERE CONCAT(U.user, '@',D.name)='%s'
+_EOF_
+
+chown root:postfix -R /etc/postfix/virtual
+chmod 640 -R /etc/postfix/virtual
 
 # ===========================================
 #  Dovecot IMAP
