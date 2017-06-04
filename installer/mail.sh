@@ -21,27 +21,12 @@ chown vmail:vmail /var/vmail
 #  MySQL
 # ===========================================
 if is_package_installed mysql-server; then
-  service mysql stop
-  mysqld_safe --skip-grant-tables &
 
-  i="0"
-  while [ $i -lt 10 ]; do
-    sleep 1
-    if [ -e /var/run/mysqld/mysqld.sock ]; then
-      break
-    fi
-    i=$[$i+1]
-  done
-
-mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
+  mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
 CREATE DATABASE IF NOT EXISTS vmail;
 GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY 'vmailpass';
 GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
 _EOF_
-  
-  killall -9 mysqld_safe mysqld
-  service mysql stop
-  service mysql start
 fi
 
 # ===========================================
