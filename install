@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INSTALLLER_DIR=${PWD##*/}
-echo "$INSTALLER_DIR"
+echo "$INSTALLLER_DIR"
 
 # Include some external files
 . installer/functions.sh
