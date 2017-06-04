@@ -17,6 +17,8 @@ fi
 
 chown vmail:vmail /var/vmail
 
+random_password VMAIL_PASSWD
+
 # ===========================================
 #  MySQL
 # ===========================================
@@ -24,7 +26,7 @@ if is_package_installed mysql-server; then
 
   mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
 CREATE DATABASE IF NOT EXISTS vmail;
-GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY 'vmailpass';
+GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY '$VMAIL_PASSWD';
 GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
 _EOF_
 
