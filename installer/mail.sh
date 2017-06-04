@@ -155,6 +155,26 @@ if ! is_package_installed dovecot-imapd; then
   fi
 fi
 
+# backup Dovecot files
+if [ ! -f /etc/dovecot/dovecot.conf.orig ]; then
+  cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.orig
+fi
+if [ ! -f /etc/dovecot/conf.d/10-mail.conf.orig ]; then
+ cp /etc/dovecot/conf.d/10-mail.conf /etc/dovecot/conf.d/10-mail.conf.orig
+fi
+if [ ! -f /etc/dovecot/conf.d/10-auth.conf.orig ]; then
+  cp /etc/dovecot/conf.d/10-auth.conf /etc/dovecot/conf.d/10-auth.conf.orig
+fi
+if [ ! -f /etc/dovecot/dovecot-sql.conf.ext.orig ]; then
+  cp /etc/dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext.orig
+fi
+if [ ! -f /etc/dovecot/conf.d/10-master.conf.orig ]; then
+  cp /etc/dovecot/conf.d/10-master.conf /etc/dovecot/conf.d/10-master.conf.orig
+fi
+if [ ! -f /etc/dovecot/conf.d/10-ssl.conf.orig ]; then
+  cp /etc/dovecot/conf.d/10-ssl.conf /etc/dovecot/conf.d/10-ssl.conf.orig
+fi
+
 cat <<_EOF_ > /etc/dovecot/dovecot-sql.conf
 driver = mysql
 connect = host=127.0.0.1 dbname=vmail user=vmail password=$VMAIL_PASSWD
@@ -169,73 +189,6 @@ if anyof(header :contains "X-Spam-Flag" ["YES"], header :contains "X-DSPAM-Resul
   fileinto "Spam";
   stop;
 }
-_EOF_
-
-cat <<_EOF_ >   /etc/dovecot/local.conf
-mail_location = maildir:/var/vmail/%d/%n/Maildir
-## uncomment this if you already have email from
-## courier for instance.
-#namespace private {
-#  separator = .
-#  prefix = INBOX.
-#  inbox = yes
-#}
-## change section "protocol lda" to:
-protocol lda {
-  # Address to use when sending rejection mails.
-  postmaster_address = postmaster@example.com
-  log_path = /var/vmail/dovecot-deliver.log
-  # Hostname to use in various parts of sent mails, eg. in Message-Id.
-  # Default is the system's real hostname.
-  #hostname =
-  # Support for dynamically loadable plugins. mail_plugins is a space separated
-  # list of plugins to load.
-  #mail_plugins =
-  #mail_plugin_dir = /usr/lib/dovecot/modules/lda
-  # Binary to use for sending mails.
-  #sendmail_path = /usr/lib/sendmail
-  # UNIX socket path to master authentication server to find users.
-  auth_socket_path = /var/run/dovecot/auth-master
-  # Enabling Sieve plugin for server-side mail filtering
-  # handy for storing spam in their folders
-  #mail_plugins = cmusieve
-  #global_script_path = /var/vmail/globalsieverc
-}
-## in section auth default
-## change :
-# mechanisms = plain login
-## comment out "passdb pam"
-## and make sure the following is in
-## to look for users in the DB
-  passdb sql {
-    # Path for SQL configuration file, see /etc/dovecot/dovecot-sql.conf for example
-    args = /etc/dovecot/dovecot-sql.conf
-  }
-## and add this so dovecot does not deal with uid/gid
-## we use uid and gid 5000 for everybody
-  userdb static {
-    args = uid=5000 gid=5000 home=/var/vmail/%d/%n allow_all_users=yes
-  }
-## next make sure the section "socket listen" looks like this
-## so dovecot and postfix work happily together
-  socket listen {
-     master {
-       path = /var/run/dovecot/auth-master
-       mode = 0600
-       user = vmail # User running Dovecot LDA
-       #group = mail # Or alternatively mode 0660 + LDA user in this group
-     }
-     client {
-      # The client socket is generally safe to export to everyone. Typical use
-      # is to export it to your SMTP server so it can do SMTP AUTH lookups
-      # using it.
-      path = /var/spool/postfix/private/auth
-      #path = /var/run/dovecot/auth-client
-      mode = 0660
-      user = postfix
-      group = postfix
-     }
-   }
 _EOF_
 
 # ==========================================
