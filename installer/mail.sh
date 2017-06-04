@@ -177,14 +177,27 @@ fi
 if [ ! -f /etc/dovecot/conf.d/auth-sql.conf.ext.orig]; then
   cp /etc/dovecot/conf.d/auth-sql.conf.ext /etc/dovecot/conf.d/auth-sql.conf.ext.orig
 fi
+if [ ! -f /etc/dovecot/dovecot-sql.conf.ext.orig ]; then
+  cp /etc/dovecot/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext.orig
+fi
 
 sed -i 's/^mail_location =.*/mail_location = maildir:\/var\/vmail\/vhosts\/%d\/%n\//g' /etc/dovecot/conf.d/10-mail.conf
 sed -i 's/^#mail_uid =.*/mail_uid = vmail/g' /etc/dovecot/conf.d/10-mail.conf
 sed -i 's/^#mail_gid =.*/mail_gid = vmail/g' /etc/dovecot/conf.d/10-mail.conf
 sed -i 's/^#mail_privileged_group =.*/#mail_privileged_group = vmail/g' /etc/dovecot/conf.d/10-mail.conf
 
+cat <<_EOF_ > /etc/dovecot/conf.d/auth-sql.conf.ext
+passdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf.ext
+}
+userdb {
+  driver = static
+  args = uid=vmail gid=vmail home=/var/vmail/vhosts/%d/%n
+}
+_EOF_
 
-cat <<_EOF_ > /etc/dovecot/dovecot-sql.conf
+cat <<_EOF_ > /etc/dovecot/dovecot-sql.conf.ext
 driver = mysql
 connect = host=127.0.0.1 dbname=vmail user=vmail password=$VMAIL_PASSWD
 default_pass_scheme = PLAIN-MD5
