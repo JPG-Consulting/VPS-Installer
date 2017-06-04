@@ -1,6 +1,7 @@
 #!/bin/bash
 # References: https://wiki.debian.org/Postfix#Installing_and_Configuring_Postfix_on_Debian
 #             https://www.debuntu.org/how-to-virtual-emails-accounts-with-postfix-and-dovecot/
+#             https://wiki.gentoo.org/wiki/Complete_Virtual_Mail_Server/Linux_vmail_user
 
 # Creating The Virtual Email User
 if ! id -g "vmail" > /dev/null 2>&1; then
