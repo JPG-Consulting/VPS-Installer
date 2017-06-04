@@ -34,7 +34,7 @@ if is_package_installed mysql-server; then
   done
 
 mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
-CREATE DATABASE vmail;
+CREATE DATABASE IF NOT EXISTS vmail;
 GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY 'vmailpass';
 GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
 _EOF_
