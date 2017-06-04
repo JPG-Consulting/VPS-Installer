@@ -213,6 +213,9 @@ if anyof(header :contains "X-Spam-Flag" ["YES"], header :contains "X-DSPAM-Resul
 }
 _EOF_
 
+chown -R vmail:dovecot /etc/dovecot
+chmod -R o-rwx /etc/dovecot 
+
 # ==========================================
 #  Merge Postfix and Dovecot
 # ==========================================
