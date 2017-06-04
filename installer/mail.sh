@@ -178,7 +178,7 @@ fi
 sed -i 's/^mail_location =.*/mail_location = maildir:\/var\/vmail\/vhosts\/%d\/%n\//g' /etc/dovecot/conf.d/10-mail.conf
 sed -i 's/^#mail_uid =.*/mail_uid = vmail/g' /etc/dovecot/conf.d/10-mail.conf
 sed -i 's/^#mail_gid =.*/mail_gid = vmail/g' /etc/dovecot/conf.d/10-mail.conf
-sed -i 's/^#mail_privileged_group =.*/mail_privileged_group = vmail/g' /etc/dovecot/conf.d/10-mail.conf
+sed -i 's/^#mail_privileged_group =.*/#mail_privileged_group = vmail/g' /etc/dovecot/conf.d/10-mail.conf
 
 
 cat <<_EOF_ > /etc/dovecot/dovecot-sql.conf
