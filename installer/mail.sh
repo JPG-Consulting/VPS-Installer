@@ -27,6 +27,7 @@ CREATE DATABASE IF NOT EXISTS vmail;
 GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY 'vmailpass';
 GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
 _EOF_
+
 fi
 
 # ===========================================
