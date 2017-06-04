@@ -29,18 +29,6 @@ function prompt_yn() {
   done
 }
 
-function random_password {
-  local __resultvar=$1
-  local __password=""
-  __password=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9-_!@#^&*()_+{}|:<>=.;\-' | fold -w 30 | head -n1);
-  
-  if [[ "$__resultvar" ]]; then
-    eval $__resultvar="'$__password'"
-  else
-    echo "$__password"
-  fi
-}
-
 # Reads a password with confirmation.
 #
 # usage: read_password [VAR_NAME]
