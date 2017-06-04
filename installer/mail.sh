@@ -10,6 +10,7 @@ fi
 
 if ! id -u "vmail" >/dev/null 2>&1; then
   useradd -m -d /var/vmail -s /bin/false -u 5000 -g vmail vmail
+  rm -rf /var/vmail/*
 fi
 
 if [ ! -d /var/vmail ]; then
