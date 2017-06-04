@@ -1,6 +1,14 @@
 #!/bin/bash
 # References: https://wiki.debian.org/Postfix#Installing_and_Configuring_Postfix_on_Debian
 
+if ! id -g "vmail" > /dev/null 2>&1; then
+  groupadd -g 5000 vmail
+fi
+
+if ! id -u "vmail" >/dev/null 2>&1; then
+  useradd -m -u 5000 -g 5000 -s /bin/bash vmail
+fi
+
 # ===========================================
 #  Postfix SMTP
 # ===========================================
