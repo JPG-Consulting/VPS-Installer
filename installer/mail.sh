@@ -1,6 +1,8 @@
 #!/bin/bash
 # References: https://wiki.debian.org/Postfix#Installing_and_Configuring_Postfix_on_Debian
+#             https://www.debuntu.org/how-to-virtual-emails-accounts-with-postfix-and-dovecot/
 
+# Creating The Virtual Email User
 if ! id -g "vmail" > /dev/null 2>&1; then
   groupadd -g 5000 vmail
 fi
@@ -8,6 +10,12 @@ fi
 if ! id -u "vmail" >/dev/null 2>&1; then
   useradd -m -d /var/vmail -s /bin/false -u 5000 -g vmail vmail
 fi
+
+if [ ! -d /var/vmail ]; then
+  mkdir /var/vmail
+fi
+
+chown vmail:vmail /var/vmail
 
 # ===========================================
 #  Postfix SMTP
