@@ -152,6 +152,23 @@ if ! is_package_installed dovecot-imapd; then
   fi
 fi
 
+cat <<_EOF_ > /etc/dovecot/dovecot-sql.conf
+driver = mysql
+connect = host=127.0.0.1 dbname=vmail user=vmail password=$VMAIL_PASSWD
+default_pass_scheme = PLAIN-MD5
+password_query = SELECT password FROM virtual_users AS V LEFT JOIN virtual_domains AS D ON V.domain_id=D.id WHERE V.user='%n' AND D.name='%d'
+_EOF_
+
+cat <<_EOF_ >  /var/vmail/globalsieverc
+require ["fileinto"];
+# Move spam to spam folder
+if anyof(header :contains "X-Spam-Flag" ["YES"], header :contains "X-DSPAM-Result" ["Spam"]) {
+  fileinto "Spam";
+  stop;
+}
+_EOF_
+
+
 # ==========================================
 #  Merge Postfix and Dovecot
 # ==========================================
