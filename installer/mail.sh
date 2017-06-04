@@ -99,7 +99,9 @@ postconf -e "virtual_alias_maps = mysql:/etc/postfix/virtual/mysql-virtual-alias
 postconf -e "virtual_transport = dovecot"
 postconf -e "dovecot_destination_recipient_limit = 1"
 
-mkdir /etc/postfix/virtual
+if [ ! -d /etc/postfix/virtual ]; then
+  mkdir /etc/postfix/virtual
+fi
 
 cat <<_EOF_ > /etc/postfix/virtual/mysql-virtual-mailbox-maps.cf
 user = vmail
