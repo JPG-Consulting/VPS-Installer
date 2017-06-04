@@ -17,7 +17,7 @@ fi
 
 chown vmail:vmail /var/vmail
 
-random_password VMAIL_PASSWD
+VMAIL_PASSWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9-_!@#^&*()_+{}|:<>=.;\-' | fold -w 30 | head -n1)
 
 # ===========================================
 #  MySQL
