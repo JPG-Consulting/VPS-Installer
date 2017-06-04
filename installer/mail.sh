@@ -30,6 +30,7 @@ GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY '$VMAIL_PASSWD';
 GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
 _EOF_
 
+  mysql -uvmail -p$VMAIL_PASSWD < $INSTALLER_DIR/sql/vmail.sql
 fi
 
 # ===========================================
