@@ -33,7 +33,7 @@ if is_package_installed mysql-server; then
     i=$[$i+1]
   done
 
-  mysql << _EOF_
+mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
 CREATE DATABASE vmail;
 GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY 'vmailpass';
 GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
