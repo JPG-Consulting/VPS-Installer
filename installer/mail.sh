@@ -202,7 +202,7 @@ protocol lda {
 }
 ## in section auth default
 ## change :
-mechanisms = plain login
+# mechanisms = plain login
 ## comment out "passdb pam"
 ## and make sure the following is in
 ## to look for users in the DB
