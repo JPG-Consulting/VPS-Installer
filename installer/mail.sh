@@ -84,6 +84,13 @@ postconf -e "inet_protocols = ipv4"
 postconf -e 'smtpd_helo_required = yes'
 postconf -e 'disable_vrfy_command = yes'
 
+# Link the mailbox uid and gid to postfix.
+postconf -e "virtual_uid_maps = static:5000"
+postconf -e "virtual_gid_maps = static:5000"
+ 
+# Set the base address for all virtual mailboxes
+postconf -e "virtual_mailbox_base = /var/vmail"
+
 
 # ===========================================
 #  Dovecot IMAP
