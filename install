@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTALLLER_DIR=${PWD##*/}
+INSTALLLER_DIR=${PWD}
 echo "$INSTALLLER_DIR"
 
 # Include some external files
