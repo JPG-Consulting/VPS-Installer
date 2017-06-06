@@ -15,7 +15,7 @@ function base_set_timezone {
         __timezone='Europe/Madrid'
       fi
     fi
-    if [ -f "/usr/share/zoneinfo/$__timezone"]; then
+    if [ -f "/usr/share/zoneinfo/$__timezone" ]; then
       break;
     else
       echo "Error: Bad timezone";
