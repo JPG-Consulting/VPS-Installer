@@ -3,14 +3,14 @@
 function base_set_timezone {
   local __timezone='Europe/Madrid'
   if [ -f /etc/timezone ]; then
-    __timezone=$(cat /ect/timezone)
+    __timezone=$(cat /etc/timezone)
   fi
   
   while true; do
     read -p "Timezone [$__timezone]: " __timezone
     if [ -z "$__timezone" ]; then
       if [ -f /etc/timezone ]; then
-        __timezone=$(cat /ect/timezone)
+        __timezone=$(cat /etc/timezone)
       else
         __timezone='Europe/Madrid'
       fi
