@@ -20,6 +20,7 @@ mysql_harden
 if ! is_package_installed php5; then
    php_install
 fi
+php_harden
 
 # ====================================
 #  Extra packages bibding them all
