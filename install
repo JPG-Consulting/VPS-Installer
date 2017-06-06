@@ -4,6 +4,7 @@ INSTALLER_DIR=${PWD}
 
 # Include some external files
 . installer/functions.sh
+. installer/base.sh
 . installer/mysql.sh
 . installer/php.sh
 
@@ -16,6 +17,8 @@ fi
 
 # Non-privileged user settings
 . installer/user.sh
+
+base_set_timezone
 
 . installer/prompt.sh
 
