@@ -27,18 +27,21 @@ function php_harden {
   if [ -f /etc/php5/cgi/php.ini ]; then
     sed -i 's/expose_php = On/expose_php = Off/g' /etc/php5/cgi/php.ini
     sed -i 's/mail.add_x_header = On/mail.add_x_header = Off/g' /etc/php5/cgi/php.ini
-    sed -i 's/date.timezone = .*/date.timezone = "$__timezone"/g' /etc/php5/cgi/php.ini
+    sed -i "s|^date.timezone = .*|date.timezone = $__timezone|" /etc/php5/cgi/php.ini
+    sed -i "s|^;date.timezone =$|date.timezone = $__timezone|" /etc/php5/cgi/php.ini
   fi
 
   if [ -f /etc/php5/cli/php.ini ]; then
     sed -i 's/expose_php = On/expose_php = Off/g' /etc/php5/cli/php.ini
     sed -i 's/mail.add_x_header = On/mail.add_x_header = Off/g' /etc/php5/cli/php.ini
-    sed -i 's/date.timezone = .*/date.timezone = "$__timezone"/g' /etc/php5/cli/php.ini
+    sed -i "s|^date.timezone = .*|date.timezone = $__timezone|" /etc/php5/cli/php.ini
+    sed -i "s|^;date.timezone =$|date.timezone = $__timezone|" /etc/php5/cli/php.ini
   fi
 
   if [ -f /etc/php5/fpm/php.ini ]; then
     sed -i 's/expose_php = On/expose_php = Off/g' /etc/php5/fpm/php.ini
     sed -i 's/mail.add_x_header = On/mail.add_x_header = Off/g' /etc/php5/fpm/php.ini
-    sed -i 's/date.timezone = .*/date.timezone = "$__timezone"/g' /etc/php5/fpm/php.ini
+    sed -i "s|^date.timezone = .*|date.timezone = $__timezone|" /etc/php5/fpm/php.ini
+    sed -i "s|^;date.timezone =$|date.timezone = $__timezone|" /etc/php5/fpm/php.ini
   fi
 }
