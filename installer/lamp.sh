@@ -9,7 +9,9 @@
 # ====================================
 #  MySQL
 # ====================================
-mysql_install
+if ! is_package_installed mysql-server; then
+  mysql_install
+fi
 
 # ====================================
 #  PHP
