@@ -12,6 +12,7 @@
 if ! is_package_installed mysql-server; then
   mysql_install
 fi
+mysql_harden
 
 # ====================================
 #  PHP
