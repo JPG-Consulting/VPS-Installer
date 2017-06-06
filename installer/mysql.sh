@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# used globals:
+#
+#MYSQL_ROOT_PASSWD='PASSWORD'
+#
 
 function mysql_install {
   apt-get --yes install mysql-server
