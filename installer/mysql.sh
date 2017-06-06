@@ -1,15 +1,11 @@
 #!/bin/bash
 
 function mysql_install {
-  if ! is_package_installed mysql-server; then
-    apt-get --yes install mysql-server
-    if [ $? -ne 0 ]; then
-      echo "Error: Failed to install mysql-server."
-      exit 1
-    fi
+  apt-get --yes install mysql-server
+  if [ $? -ne 0 ]; then
+    echo "Error: Failed to install mysql-server."
+    exit 1
   fi
-  
-  mysql_harden
 }
 
 function mysql_harden {
