@@ -5,6 +5,7 @@ INSTALLER_DIR=${PWD}
 # Include some external files
 . installer/functions.sh
 . installer/mysql.sh
+. installer/php.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
