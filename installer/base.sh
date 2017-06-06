@@ -1,16 +1,29 @@
 #!/bin/bash
 
-while true; do
-  read -p "Timezone [Europe/Madrid]: " TIMEZONE
-  if [ -z "$TIMEZONE" ]; then
-    TIMEZONE="Europe/Madrid"
+function base_set_timezone {
+  local __timezone='Europe/Madrid'
+  if [ -f /etc/timezone ]; then
+    __timezone = $(cat /ect/timezone)
   fi
-  if [ -f "/usr/share/zoneinfo/$TIMEZONE"]; then
-    break;
-  else
-    echo "Error: Bad timezone";
-  fi
-done
   
-cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime
-echo $TIMEZONE > /ect/timezone
+  while true; do
+    read -p "Timezone [$__timezone]: " __timezone
+    if [ -z "$__timezone" ]; then
+      if [ -f /etc/timezone ]; then
+        __timezone=$(cat /ect/timezone)
+      else
+        __timezone='Europe/Madrid'
+      fi
+    fi
+    if [ -f "/usr/share/zoneinfo/$__timezone"]; then
+      break;
+    else
+      echo "Error: Bad timezone";
+    fi
+  done
+  
+  cp /usr/share/zoneinfo/$__timezone /etc/localtime
+  if [ -f /etc/timezone ]; then
+    echo $__timezone > /ect/timezone
+  fi
+}
