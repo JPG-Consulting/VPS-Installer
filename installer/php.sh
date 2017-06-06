@@ -20,7 +20,7 @@ function php_harden {
   if [ -f /etc/php5/apache2/php.ini ]; then
     sed -i 's/expose_php = On/expose_php = Off/g' /etc/php5/apache2/php.ini
     sed -i 's/mail.add_x_header = On/mail.add_x_header = Off/g' /etc/php5/apache2/php.ini
-    sed -i 's/^date.timezone = .*/date.timezone = "${__timezone}"/g' /etc/php5/apache2/php.ini
+    sed -i "s/^date.timezone = .*/date.timezone = \"$__timezone\"/g" /etc/php5/apache2/php.ini
     sed -i "s/^;date.timezone =/date.timezone = \"$__timezone\"/g" /etc/php5/apache2/php.ini
   fi
 
