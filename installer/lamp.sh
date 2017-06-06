@@ -17,7 +17,9 @@ mysql_harden
 # ====================================
 #  PHP
 # ====================================
-. installer/php.sh
+if ! is_package_installed php5; then
+   php_install
+fi
 
 # ====================================
 #  Extra packages bibding them all
