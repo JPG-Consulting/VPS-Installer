@@ -23,7 +23,5 @@ function base_set_timezone {
   done
   
   cp /usr/share/zoneinfo/$__timezone /etc/localtime
-  if [ -f /etc/timezone ]; then
-    echo $__timezone > /etc/timezone
-  fi
+  echo $__timezone > /etc/timezone
 }
