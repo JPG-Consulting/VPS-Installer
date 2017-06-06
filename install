@@ -28,8 +28,7 @@ fi
 
 . installer/bind.sh
 
-# NOTE: Causes problems with my VPS fue to a bug in the VPS software
-#. installer/iptables.sh
+. installer/iptables.sh
 
 . installer/fail2ban.sh
 
