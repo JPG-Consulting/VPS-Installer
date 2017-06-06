@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function install_mysql {
+function mysql_install {
   if ! is_package_installed mysql-server; then
     apt-get --yes install mysql-server
     if [ $? -ne 0 ]; then
@@ -8,6 +8,8 @@ function install_mysql {
       exit 1
     fi
   fi
+  
+  mysql_harden
 }
 
 function mysql_harden {
