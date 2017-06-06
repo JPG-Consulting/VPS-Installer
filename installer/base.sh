@@ -24,4 +24,6 @@ function base_set_timezone {
   
   cp /usr/share/zoneinfo/$__timezone /etc/localtime
   echo $__timezone > /etc/timezone
+  chown root:root /etc/timezone
+  chmod 0644 /etc/timezone
 }
