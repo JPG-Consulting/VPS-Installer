@@ -7,6 +7,7 @@ INSTALLER_DIR=${PWD}
 . installer/base.sh
 . installer/mysql.sh
 . installer/php.sh
+. installer/composer.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
@@ -30,6 +31,8 @@ base_set_timezone
 . installer/ssh.sh
 
 . installer/lamp.sh
+
+composer_install
 
 . installer/bind.sh
 
