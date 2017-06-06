@@ -8,5 +8,10 @@ if ! is_package_installed apache2; then
   fi
 fi
 
-sed -i 's/^ServerSignature On/ServerSignature Off/g' /etc/apache2/conf.d/security
-sed -i 's/^ServerTokens \(OS\|Full\|Minimal\|Minor\|Major\)/ServerTokens Prod/g' /etc/apache2/conf.d/security
+if [ -e /etc/apache2/conf-enabled/security ]; then
+  sed -i 's/^ServerSignature On/ServerSignature Off/g' /etc/apache2/conf-enabled/security
+  sed -i 's/^ServerTokens \(OS\|Full\|Minimal\|Minor\|Major\)/ServerTokens Prod/g' /etc/apache2/conf-enabled/security
+elif [ -e /etc/apache2/conf.d/security ]; then
+  sed -i 's/^ServerSignature On/ServerSignature Off/g' /etc/apache2/conf.d/security
+  sed -i 's/^ServerTokens \(OS\|Full\|Minimal\|Minor\|Major\)/ServerTokens Prod/g' /etc/apache2/conf.d/security
+fi
