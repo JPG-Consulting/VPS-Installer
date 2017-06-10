@@ -1,10 +1,12 @@
 #!/bin/bash
 
-
 # =====================================
 #  Apache2
 # =====================================
-. installer/apache.sh
+if ! is_package_installed apache2; then
+ apahe2_install
+fi
+apache2_harden
 
 # ====================================
 #  MySQL
