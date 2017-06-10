@@ -9,6 +9,7 @@ INSTALLER_DIR=${PWD}
 . installer/mysql.sh
 . installer/php.sh
 . installer/composer.sh
+. installer/bind.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
@@ -35,7 +36,14 @@ base_set_timezone
 
 composer_install
 
-. installer/bind.sh
+# Bind9 DNS Server
+if ! is_package_installed bind9; then
+  bind9_install
+fi
+
+if is_package_installed bind9; then
+  bind9_chroot
+fi
 
 . installer/iptables.sh
 
