@@ -10,6 +10,7 @@ INSTALLER_DIR=${PWD}
 . installer/php.sh
 . installer/composer.sh
 . installer/bind.sh
+. installer/systemd.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
@@ -28,7 +29,12 @@ base_set_timezone
 # https://certbot.eff.org/#debianwheezy-other
 #. installer/certificates.sh
 
-. installer/systemd.sh
+# SystemD for CHROOT services
+if ! is_package_installed systemd; then
+  systemd_install
+elif ! is_package_installed systemd-sysv; then
+  systemd_install
+fi
 
 . installer/ssh.sh
 
