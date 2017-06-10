@@ -29,3 +29,9 @@ function read_mysql_password {
 }
 
 read_mysql_password MYSQL_ROOT_PASSWD
+
+if ! is_package_installed bind9; then
+  prompt_yn "Install bind9 DNS server?" INSTALL_BIND9
+else
+  INSTALL_BIND9=0
+fi
