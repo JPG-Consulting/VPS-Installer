@@ -5,6 +5,7 @@ INSTALLER_DIR=${PWD}
 # Include some external files
 . installer/functions.sh
 . installer/base.sh
+. installer/apache.sh
 . installer/mysql.sh
 . installer/php.sh
 . installer/composer.sh
