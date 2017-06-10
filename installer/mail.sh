@@ -174,7 +174,7 @@ fi
 if [ ! -f /etc/dovecot/conf.d/10-ssl.conf.orig ]; then
   cp /etc/dovecot/conf.d/10-ssl.conf /etc/dovecot/conf.d/10-ssl.conf.orig
 fi
-if [ ! -f /etc/dovecot/conf.d/auth-sql.conf.ext.orig]; then
+if [ ! -f /etc/dovecot/conf.d/auth-sql.conf.ext.orig ]; then
   cp /etc/dovecot/conf.d/auth-sql.conf.ext /etc/dovecot/conf.d/auth-sql.conf.ext.orig
 fi
 if [ ! -f /etc/dovecot/dovecot-sql.conf.ext.orig ]; then
