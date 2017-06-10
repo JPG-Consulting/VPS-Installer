@@ -11,6 +11,7 @@ INSTALLER_DIR=${PWD}
 . installer/composer.sh
 . installer/bind.sh
 . installer/systemd.sh
+. installer/fail2ban.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
@@ -53,7 +54,8 @@ fi
 
 . installer/iptables.sh
 
-. installer/fail2ban.sh
+fail2ban_install
+fail2ban_ssh
 
 . installer/mail.sh
 
