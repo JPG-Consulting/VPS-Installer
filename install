@@ -12,6 +12,7 @@ INSTALLER_DIR=${PWD}
 . installer/bind.sh
 . installer/systemd.sh
 . installer/fail2ban.sh
+. installer/postfix.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
