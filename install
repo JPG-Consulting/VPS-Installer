@@ -13,6 +13,7 @@ INSTALLER_DIR=${PWD}
 . installer/systemd.sh
 . installer/fail2ban.sh
 . installer/postfix.sh
+. installer/phpmyadmin.sh
 
 # Run as root, of course. (this might not be necessary, because we have to run the script somehow with root anyway)
 
@@ -59,5 +60,9 @@ fail2ban_install
 fail2ban_ssh
 
 . installer/mail.sh
+
+if ! is_package_installed phpmyadmin; then
+  phpmyadmin_install
+fi
 
 . installer/cron-apt.sh
