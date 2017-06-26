@@ -14,4 +14,5 @@ function phpmyadmin_install {
   apt-get install -y phpmyadmin
 
   a2disconf phpmyadmin
+  service apache2 reload
 }
