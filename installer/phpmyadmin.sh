@@ -12,4 +12,6 @@ function phpmyadmin_install {
   debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $MYSQL_ROOT_PASSWD"
 
   apt-get install -y phpmyadmin
+
+  a2disconf phpmyadmin
 }
