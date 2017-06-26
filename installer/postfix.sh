@@ -98,9 +98,8 @@ _EOF_
 
   mysql -uvmail -p$VMAIL_PASSWD < $INSTALLER_DIR/installer/sql/vmail.sql
 
-  mysql -uvmail -p$VMAIL_PASSWD << _EOF_
-USE vmail;
-INSERT INTO virtual_domains ('name') VALUES ('$HOSTNAME');
+  mysql -uvmail -p$VMAIL_PASSWD vmail << _EOF_
+INSERT INTO virtual_domains (\`name\`) VALUES ('$HOSTNAME');
 _EOF_
 
 }
