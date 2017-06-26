@@ -88,3 +88,19 @@ _EOF_
   chown root:postfix -R /etc/postfix/virtual
   chmod 640 -R /etc/postfix/virtual
 }
+
+postfix_mysql_accounts {
+  mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
+CREATE DATABASE IF NOT EXISTS vmail;
+GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY '$VMAIL_PASSWD';
+GRANT ALL PRIVILEGES ON vmail.* TO vmail@'localhost';
+_EOF_
+
+  mysql -uvmail -p$VMAIL_PASSWD < $INSTALLER_DIR/installer/sql/vmail.sql
+
+  mysql -uvmail -p$VMAIL_PASSWD << _EOF_
+USE vmail;
+INSERT INTO virtual_domains ('name') VALUES ('$HOSTNAME');
+_EOF_
+
+}
