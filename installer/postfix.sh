@@ -89,7 +89,7 @@ _EOF_
   chmod 640 -R /etc/postfix/virtual
 }
 
-function postix_mysql_accounts {
+function postfix_mysql_accounts {
   mysql -uroot -p$MYSQL_ROOT_PASSWD << _EOF_
 CREATE DATABASE IF NOT EXISTS vmail;
 GRANT USAGE ON *.* TO vmail@'localhost' IDENTIFIED BY '$VMAIL_PASSWD';
