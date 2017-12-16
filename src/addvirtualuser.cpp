@@ -24,13 +24,14 @@ int main(int argc, char ** argv)
         exit(1);
     }
     
-    if (mysql_rollback(conn) != 0)
+    mysql_autocommit(conn, (my_bool)0);   // set autocommit to false
+    if (mysql_rollback(conn) != (my_bool)0)
     {
         cout << "mysql_rollback() failed" << mysql_errno(conn) <<": "<< mysql_error(conn) << endl;
         exit(1);
     }
      
-    if (mysql_commit(conn) != 0)
+    if (mysql_commit(conn) != (my_bool)0)
     {
         cout << "mysql_commit() failed" << mysql_errno(conn) <<": "<< mysql_error(conn) << endl;
         exit(1);
