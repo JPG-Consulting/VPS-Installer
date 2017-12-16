@@ -24,6 +24,18 @@ int main(int argc, char ** argv)
         exit(1);
     }
     
+    if (mysql_rollback(conn) != 0)
+    {
+        cout << "mysql_rollback() failed" << mysql_errno(conn) <<": "<< mysql_error(conn) << endl;
+        exit(1);
+    }
+     
+    if (mysql_commit(conn) != 0)
+    {
+        cout << "mysql_commit() failed" << mysql_errno(conn) <<": "<< mysql_error(conn) << endl;
+        exit(1);
+    }
+    
     mysql_close(conn);
 
     return 0;
