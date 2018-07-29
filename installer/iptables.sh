@@ -42,8 +42,14 @@ iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 80 -j A
 iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 443 -j ACCEPT
 
 # FTP
-iptables -A INPUT -p tcp --dport 21 -j ACCEPT
-iptables -A OUTPUT -p tcp --sport 20 -j ACCEPT
+iptables -A INPUT  -p tcp -m tcp --dport 21 -m conntrack --ctstate ESTABLISHED,NEW -j ACCEPT -m comment --comment "Allow ftp connections on port 21"
+iptables -A OUTPUT -p tcp -m tcp --dport 21 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT -m comment --comment "Allow ftp connections on port 21"
+
+iptables -A INPUT  -p tcp -m tcp --dport 20 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT -m comment --comment "Allow ftp connections on port 20"
+iptables -A OUTPUT -p tcp -m tcp --dport 20 -m conntrack --ctstate ESTABLISHED -j ACCEPT -m comment --comment "Allow ftp connections on port 20"
+
+iptables -A INPUT  -p tcp -m tcp --sport 1024: --dport 1024: -m conntrack --ctstate ESTABLISHED -j ACCEPT -m comment --comment "Allow passive inbound connections"
+iptables -A OUTPUT -p tcp -m tcp --sport 1024: --dport 1024: -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT -m comment --comment "Allow passive inbound connections"
 
 # IMAP port
 iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 143 -j ACCEPT
