@@ -56,3 +56,5 @@ iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 143 -j 
 
 iptables-save > /etc/iptables/rules.v4
 ip6tables-save > /etc/iptables/rules.v6
+
+iptables-save > /etc/network/iptables.up.rules
