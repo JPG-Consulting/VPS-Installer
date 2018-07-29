@@ -41,6 +41,10 @@ iptables -A INPUT -m state --state NEW,ESTABLISHED -p tcp --dport 443 -j ACCEPT
 iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 443 -j ACCEPT
 
+# FTP
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 20 -j ACCEPT
+
 # IMAP port
 iptables -A INPUT -m state --state NEW,ESTABLISHED -m tcp -p tcp --dport 143 -j ACCEPT
 # Secure IMAP
